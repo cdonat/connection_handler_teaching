@@ -43,7 +43,7 @@ bool tcp_connection_handler::read_data(char* buff, size_t length) {
 }
 
 
-bool tcp_connection_handler::read_or_write_data(char* buff, size_t length, std::function<ssize_t (int, void*, size_t)> callback) {
+inline bool tcp_connection_handler::read_or_write_data(char* buff, size_t length, std::function<ssize_t (int, void*, size_t)> callback) {
     while( length != 0 ) {
         ssize_t bytes = callback( socket_, buff, length);
         if( bytes < 0 ) {
