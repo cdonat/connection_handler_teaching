@@ -8,7 +8,7 @@
 #include <arpa/inet.h>
 
 
-void tcp_connection_handler::establish_connection(std::string hostname, uint16_t port) {
+tcp_connection_handler::tcp_connection_handler(std::string hostname, uint16_t port): connection_handler(hostname, port) {
     hostname_ = hostname;
     port_ = port;
     socket_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -25,10 +25,9 @@ void tcp_connection_handler::establish_connection(std::string hostname, uint16_t
 }
 
 
-void tcp_connection_handler::close_connection() {
-    throw_on_error( close(socket_) != 0 );
+tcp_connection_handler::~tcp_connection_handler() {
+    close(socket_);
 }
-
 
 void tcp_connection_handler::write_data(char* buff, size_t length) {
     read_or_write_data(buff, length, write);

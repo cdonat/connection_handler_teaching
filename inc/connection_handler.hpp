@@ -7,10 +7,9 @@
 
 class connection_handler {
     public:
-        virtual void establish_connection(std::string hostname, uint16_t port) = 0;
-        virtual bool shake_hands_start() = 0;
-        virtual bool shake_hands_end() = 0;
-        virtual void close_connection() = 0;
+        connection_handler(std::string hostname, uint16_t port):
+            hostname_(hostname), port_(port) {};
+        virtual ~connection_handler() {};
 
         virtual void read_message( message_buffer* buff ) = 0;
         virtual void send_message( message_buffer* buff ) = 0;

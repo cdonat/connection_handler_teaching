@@ -20,8 +20,8 @@ class read_write_failure: public std::exception {
 
 class tcp_connection_handler: public connection_handler {
     public:
-        virtual void establish_connection(std::string hostname, uint16_t port);
-        virtual void close_connection();
+        tcp_connection_handler(std::string hostname, uint16_t port);
+        virtual ~tcp_connection_handler();
 
     protected:
         void write_data(char* buff, size_t length);

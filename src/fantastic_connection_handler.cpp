@@ -6,6 +6,18 @@
 #include <strings.h>
 #include <string.h>
 
+fantastic_connection_handler::fantastic_connection_handler(std::string hostname, uint16_t port): tcp_connection_handler(hostname, port) {
+    shake_hands_start();
+}
+
+fantastic_connection_handler::~fantastic_connection_handler() {
+    try {
+        shake_hands_end();
+    } catch(read_write_failure e) {
+        return;
+    }
+}
+
 void fantastic_connection_handler::read_message( message_buffer* buff ) {
     uint16_t length;
     read_data( (char*)(&length), 2 );
@@ -44,38 +56,28 @@ bool fantastic_connection_handler::expect_message(const char* msg, size_t l) {
             memcmp( b.buffer(), msg, l ) != 0;
 }
 
-bool fantastic_connection_handler::shake_hands_start() {
-    try {
-        send_message( "helo", 4 );
-        if( !expect_message( "helo", 4 ) ) {
-            return false;
-        }
-    } catch(read_write_failure e) {
-        return false;
+void fantastic_connection_handler::shake_hands_start() {
+    send_message( "helo", 4 );
+    if( !expect_message( "helo", 4 ) ) {
+        std::string what("wrong reply to helo message");
+        throw read_write_failure(what);
     }
 
     int count_login_tries = 3;
     while( count_login_tries > 0 ) {
-        try {
-            send_message("user:test\0passwd:123qwe", 24);
-            if( expect_message("ACK", 3) ) {
-                send_message("ACKACK", 6);
-                return true;
-            }
-        } catch(read_write_failure e) {
-            continue;
+        send_message("user:test\0passwd:123qwe", 24);
+        if( expect_message("ACK", 3) ) {
+            send_message("ACKACK", 6);
+            return;
         }
     }
 
-    return false;
+    std::string what("login failed");
+    throw read_write_failure(what);
 }
 
-bool fantastic_connection_handler::shake_hands_end() {
-    try {
-        send_message("bye", 3);
-        return expect_message("bye", 3);
-    } catch(read_write_failure e) {
-        return false;
-    }
+void fantastic_connection_handler::shake_hands_end() {
+    send_message("bye", 3);
+    expect_message("bye", 3);
 }
 
