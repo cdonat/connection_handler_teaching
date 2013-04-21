@@ -3,16 +3,27 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 bool tcp_connection_handler::establish_connection(std::string hostname, uint16_t port) {
     hostname_ = hostname;
     port_ = port;
-    socket_ = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 6);
-    // TODO addr und addrlen müssen noch erzeugt werden
-/*    if( connect(socket_, addr, addrlen) < 0 ) {
+    socket_ = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
+
+    struct sockaddr_in srv;
+ 
+    memset(&srv,0,sizeof(struct sockaddr_in));
+ 
+    srv.sin_family = AF_INET;
+    inet_pton(AF_INET,"1.2.3.4",&srv.sin_addr); // Schreibe IP-Adresse des Servers in die sockaddr_in-Struktur
+    srv.sin_port = htons(1234); // Schreibe Port in Network-Byte-Order (Big Endian) in das Feld sin_port
+ 
+    if( connect(socket_,(struct sockaddr*)&srv,sizeof(struct sockaddr_in)) < 0 ) {
         return false;
     }
-  */  //...
+
+    return true;
 }
 
 bool tcp_connection_handler::close_connection() {
