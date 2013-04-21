@@ -1,11 +1,14 @@
-#include "tcp_connection_handler.hpp"
-#include <string>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
+#include <string>
+
+#include "tcp_connection_handler.hpp"
+#include "read_write_failure.hpp"
 
 
 tcp_connection_handler::tcp_connection_handler(std::string hostname, uint16_t port): connection_handler(hostname, port) {

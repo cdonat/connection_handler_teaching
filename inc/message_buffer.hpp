@@ -5,6 +5,7 @@
 #include <string.h>
 
 // C++ includes
+#include <string>
 #include <utility>
 
 /** a simple container holding messages
