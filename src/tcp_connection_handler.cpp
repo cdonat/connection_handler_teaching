@@ -10,7 +10,7 @@
 bool tcp_connection_handler::establish_connection(std::string hostname, uint16_t port) {
     hostname_ = hostname;
     port_ = port;
-    socket_ = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
+    socket_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     struct sockaddr_in srv;
  
@@ -44,15 +44,13 @@ bool tcp_connection_handler::read_data(char* buff, size_t length) {
 
 
 bool tcp_connection_handler::read_or_write_data(char* buff, size_t length, std::function<ssize_t (int, void*, size_t)> callback) {
-    char* b = buff;
-    size_t l = length;
     while( length != 0 ) {
-        ssize_t written_bytes = callback( socket_, b, l);
-        if( written_bytes < 0 ) {
+        ssize_t bytes = callback( socket_, buff, length);
+        if( bytes < 0 ) {
             return false;
         }
-        l -= written_bytes;
-        b += written_bytes;
+        length -= bytes;
+        buff += bytes;
     }
     return true;
 }
