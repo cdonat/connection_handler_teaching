@@ -113,7 +113,7 @@ class message_buffer {
          *
          * @returns         pointer to the buffers content
          */
-        const char* buffer() const;
+        char* buffer() const;
     private:
         size_t size_;
         char* buffer_;
@@ -221,7 +221,7 @@ inline const size_t message_buffer::size() const {
 };
 
 
-inline const char* message_buffer::buffer() const {
+inline char* message_buffer::buffer() const {
     return buffer_;
 };
 

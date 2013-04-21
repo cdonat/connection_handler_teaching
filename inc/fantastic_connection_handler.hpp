@@ -5,13 +5,13 @@
 
 class fantastic_connection_handler: public tcp_connection_handler {
     public:
-        virtual bool read_message( message_buffer* buff );
-        virtual bool send_message( message_buffer* buff );
+        virtual void read_message( message_buffer* buff );
+        virtual void send_message( message_buffer* buff );
         virtual bool shake_hands_start();
         virtual bool shake_hands_end();
 
     private:
-        bool send_message(const char* msg, size_t l);
+        void send_message(const char* msg, size_t l);
         bool expect_message(const char* msg, size_t l);
 
 };
