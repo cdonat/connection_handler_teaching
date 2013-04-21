@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+
 bool tcp_connection_handler::establish_connection(std::string hostname, uint16_t port) {
     hostname_ = hostname;
     port_ = port;
@@ -26,33 +27,34 @@ bool tcp_connection_handler::establish_connection(std::string hostname, uint16_t
     return true;
 }
 
+
 bool tcp_connection_handler::close_connection() {
     return close(socket_) == 0;
 }
 
-bool tcp_connection_handler::write_data( const char* buff, size_t length ) {
-    const char* b = buff;
-    size_t l = length;
-    while( length != 0 ) {
-        ssize_t written_bytes = write( socket_, b, l);
-        if( written_bytes < 0 ) {
-            return false;
-        }
-        l -= written_bytes;
-        b += written_bytes;
-    }
+
+bool tcp_connection_handler::write_data(char* buff, size_t length) {
+    return read_or_write_data(buff, length, write);
 }
 
-bool tcp_connection_handler::read_data( char* buff, size_t length ) {
+
+bool tcp_connection_handler::read_data(char* buff, size_t length) {
+    return read_or_write_data(buff, length, read);
+}
+
+
+bool tcp_connection_handler::read_or_write_data(char* buff, size_t length, std::function<ssize_t (int, void*, size_t)> callback) {
     char* b = buff;
     size_t l = length;
     while( length != 0 ) {
-        ssize_t written_bytes = read( socket_, b, l);
+        ssize_t written_bytes = callback( socket_, b, l);
         if( written_bytes < 0 ) {
             return false;
         }
         l -= written_bytes;
         b += written_bytes;
     }
+    return true;
 }
+
 
