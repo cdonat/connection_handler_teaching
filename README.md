@@ -1,10 +1,9 @@
 Connection Handler
 ==================
 
-**Warning!!! This code is for educational use only. It shows various code smells 
-and design issues in order to train students in seeing issues. There will be a 
-variant that shows the same domain solved with a good design instead as well. 
-As soon as it is available, this text will be updated to point to it**
+**This branch is the result of a review with my students at 16th of April 2013. 
+To view the original intentionally ugly code, please checkout the master 
+branch.**
 
 
 Problem Description
