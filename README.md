@@ -2,9 +2,10 @@ Connection Handler
 ==================
 
 **Warning!!! This code is for educational use only. It shows various code smells 
-and design issues in order to train students in seeing issues. There will be a 
-variant that shows the same domain solved with a good design instead as well. 
-As soon as it is available, this text will be updated to point to it**
+and design issues in order to train students in seeing issues. Please see the
+result after the review as well at the branch 
+[review_2013_04_16](https://github.com/cdonat/connection_handler_teaching/tree/review_2013_04_16).
+additional branches will be added in future**
 
 
 Problem Description
