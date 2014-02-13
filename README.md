@@ -17,7 +17,7 @@ Write a component that does the following things:
 2. Do some handshaking on that connection (see "Handshaking" below)
 3. Write messages to that connection (see "Message Framing" below)
 4. Read messages from the connection (see "Message Framing" below)
-5. Do additional handshaking for shitting doen the connection and (see "Handshaking" below)
+5. Do additional handshaking for shutting down the connection and (see "Handshaking" below)
 6. Close the connection
 
 
